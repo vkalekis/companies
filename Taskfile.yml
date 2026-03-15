@@ -1,0 +1,53 @@
+version: '3'
+
+vars:
+  
+tasks:
+  run:
+    cmds:
+      - go run cmd/companies/main.go -conf config/config.dev.yaml
+  
+  build:
+    cmds:
+      - mkdir -p bin
+      - go build -o bin/companies cmd/companies/main.go
+
+  db-up:
+    cmds:
+      - docker compose -f build/docker-compose-db.yaml up -d
+
+  db-down:
+    cmds:
+      - docker compose -f build/docker-compose-db.yaml down
+
+  db-clear:
+    cmds:
+      - docker compose -f build/docker-compose-db.yaml down --volumes
+
+  kafka-up:
+    cmds:
+      - docker compose -f build/docker-compose-kafka.yaml up -d
+
+  kafka-down:
+    cmds:
+      - docker compose -f build/docker-compose-kafka.yaml down
+  
+  dev:
+    deps:
+      - db-up
+      - kafka-up
+    cmds:
+      - task: run
+
+  integration-test:
+    cmds:
+      - go test -v ./internal -count=1
+
+  full:
+    cmds:
+      - docker compose -f build/docker-compose-full.yaml up
+
+
+  proto:
+    cmds: 
+      - protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative api/cdc.proto

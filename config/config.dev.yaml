@@ -1,0 +1,13 @@
+database:   
+  host:                   localhost
+  port:                        5434
+  username:           company_admin
+  password:        company_admin_pw
+  dbName:                company_db
+server:
+  port:                        8080
+cdc: 
+  operator:                   kafka  # One of log | kafka
+kafka:
+  bootstrapServers:  localhost:9092
+  topic:                  cdc-topic

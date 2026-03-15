@@ -1,0 +1,13 @@
+database:
+  host:                 postgres
+  port:                     5432
+  username:        company_admin
+  password:     company_admin_pw
+  dbName:             company_db
+server:
+  port:                     8080
+cdc:
+  operator:                  log  # One of log | kafka
+kafka:
+  bootstrapServers:  kafka:29092
+  topic:               cdc-topic

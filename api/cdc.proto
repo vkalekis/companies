@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package cdc;
+option go_package = "github.com/vkalekis/companies/api";
+
+import "google/protobuf/timestamp.proto";
+
+enum Operation {
+  OP_UNKNOWN = 0;
+  OP_CREATE = 1;
+  OP_UPDATE = 2;
+  OP_DELETE = 3;
+}
+
+message Company {
+  string id = 1;
+  string name = 2;
+  optional string description = 3;
+  int32 employees = 4;
+  bool registered = 5;
+  string company_type = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+message CDC {
+  Company before = 1;
+  Company after = 2;
+  Operation op = 3;
+  google.protobuf.Timestamp timestamp = 4;
+}

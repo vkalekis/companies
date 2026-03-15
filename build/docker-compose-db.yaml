@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:18.3
+    container_name: db
+    environment:
+      POSTGRES_DB: company_db
+      POSTGRES_USER: company_admin
+      POSTGRES_PASSWORD: company_admin_pw
+    ports:
+      - 5434:5432
+    networks:
+      - my_network
+    volumes:
+      - pgdata:/var/lib/postgresql
+
+networks:
+  my_network:
+    driver: bridge
+
+volumes:
+  pgdata:
